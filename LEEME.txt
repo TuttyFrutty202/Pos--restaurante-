@@ -1,0 +1,13 @@
+POS LIBRE — TUTTI FRUTTI CON FOTOS
+
+Esta versión añade fotos de productos elegidas desde Fotos/Archivos del iPhone. Las imágenes se reducen para ocupar menos espacio y se guardan localmente junto con cada producto en IndexedDB. El código conserva el mismo nombre de base de datos que la versión anterior para poder encontrar los productos/pedidos guardados en este mismo navegador.
+
+IMPORTANTE ANTES DE ACTUALIZAR
+1. En la versión actual del POS, abre Copias y pulsa Descargar copia JSON. Guarda el archivo en Archivos/iCloud Drive.
+2. Publica estos archivos actualizados en el mismo repositorio GitHub Pages, reemplazando los archivos web. No borres datos del sitio ni el historial de Safari.
+3. En el iPhone abre la URL del POS en Safari, recarga la página y luego abre el icono de pantalla de inicio. Si no aparece la versión nueva, cierra la app y vuelve a abrirla; puede hacer falta actualizar el service worker/caché.
+4. Confirma que tus productos y ventas siguen allí antes de continuar.
+5. Para añadir fotos: Menú > crear/editar producto > Foto real del producto > seleccionar desde Fotos o Archivos > Guardar producto.
+
+NOTA
+La base de datos local está ligada a la URL/origen del sitio y a los datos del navegador en ese iPhone. No borres historial/datos de sitios web ni cambies la dirección del sitio. La copia JSON antigua restaura ventas y productos, pero las fotos solo aparecerán en copias creadas con esta versión si se exportan después de añadirlas. Las fotos no se sincronizan con otros dispositivos.
