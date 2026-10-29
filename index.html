@@ -239,13 +239,14 @@ $('cloudSync').onclick=async()=>{
      cloudStatus('El catálogo remoto está vacío. No se sobrescribió nada. Importación del menú disponible solo para admin.');
    }
    cloudStatus('Consultando las ventas que permite tu perfil…');
-   const remoteO=await sbFetch('/rest/v1/pos_orders?select=*&order=sold_at.desc');
+   const me=await sbFetch('/auth/v1/user');
+const remoteO=await sbFetch('/rest/v1/pos_orders?select=*&order=sold_at.desc');
    const known=new Set((await all('orders')).map(o=>o.id));
    for(const o of remoteO){
      if(!known.has(o.id))await put('orders',{id:o.id,date:o.sold_at,items:o.items,total:o.total,payment:o.payment,received:o.received,change:o.change_amount,type:o.order_type,table:o.table_name||'',note:o.note||'',workerId:o.worker_id||null});
    }
    await refresh();
-   cloudStatus('Consulta completada · Ventas remotas visibles para '+(sbProfile.role==='admin'?'administración':'esta trabajadora')+': '+remoteO.length+'. No se enviaron ventas antiguas locales.');
+   cloudStatus('Usuario: '+me.email+' | UID: '+me.id+' | Ventas recibidas: '+remoteO.length+' | IDs: '+remoteO.map(o=>o.id).join(', '));
  }catch(e){cloudStatus('Sincronización detenida: '+e.message+'. No se borraron datos locales.')}
  finally{btn.disabled=false}
 };
