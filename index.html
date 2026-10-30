@@ -233,11 +233,24 @@ $('cloudSync').onclick=async()=>{
    cloudStatus('Leyendo catálogo compartido…');
    const remoteP=await sbFetch('/rest/v1/pos_products?select=*&order=name.asc');
    const localP=await all('items');
-   if(localP.length===0&&remoteP.length){
-     for(const p of remoteP)await put('items',{id:p.id,name:p.name,category:p.category,price:p.price,stock:p.stock,code:p.code||'',emoji:p.emoji||'🍦',description:p.description||'',image:p.image||''});
-   } else if(localP.length>0&&remoteP.length===0){
-     cloudStatus('El catálogo remoto está vacío. No se sobrescribió nada. Importación del menú disponible solo para admin.');
-   }
+   if(remoteP.length>0){
+  for(const p of remoteP){
+    await put('items',{
+      id:p.id,
+      name:p.name,
+      category:p.category,
+      price:p.price,
+      stock:p.stock,
+      code:p.code||'',
+      emoji:p.emoji||'🍦',
+      description:p.description||'',
+      image:p.image||''
+    });
+  }
+  cloudStatus('Catálogo actualizado: '+remoteP.length+' productos.');
+}else if(localP.length>0){
+  cloudStatus('El catálogo remoto está vacío. No se sobrescribió nada.');
+}
    cloudStatus('Consultando las ventas que permite tu perfil…');
    const me=await sbFetch('/auth/v1/user');
 const remoteO=await sbFetch('/rest/v1/pos_orders?select=*&order=sold_at.desc');
